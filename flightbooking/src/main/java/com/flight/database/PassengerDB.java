@@ -4,27 +4,35 @@ import com.flight.domain.Passenger;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PassengerDB {
+    private List<Passenger> passengers = new ArrayList<>();
 
-    private List<Passenger> passengerList = new ArrayList<>();
-
-    public void insert(Passenger passenger) {
-        passengerList.add(passenger);
-    }
-
-    public void delete(Passenger passenger) {
-        passengerList.remove(passenger);
+    public PassengerDB() {
+        passengers = new ArrayList<>();
     }
 
     public Passenger selectBySocialSecurityNo(String socialSecurityNo) {
-        return passengerList.stream()
-                .filter(p -> p.getSocialSecurityNo().equals(socialSecurityNo))
-                .findFirst()
-                .orElse(null);
+        for (Passenger passenger : passengers) {
+            if (passenger.getSocialSecurityNo().equals(socialSecurityNo)) {
+                System.out.println("Fundin:" + passenger);
+                return passenger;
+            }
+        }
+        return null;
     }
 
-    public List<Passenger> selectAll() {
-        return new ArrayList<>(passengerList);
+    public void insert(Passenger passenger) {
+
+        passengers.add(passenger);
+    }
+
+    public void delete(Passenger passenger) {
+        if (passenger != null) {
+            passengers.removeIf(p -> p.getSocialSecurityNo().equals(passenger.getSocialSecurityNo()));
+        }
+    }
+
+    public List<Passenger> getAllPassengers() {
+        return new ArrayList<>(passengers);
     }
 }
